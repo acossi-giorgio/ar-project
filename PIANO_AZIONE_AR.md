@@ -32,18 +32,19 @@ Questa idea segue bene la traccia "Augmented Room/Office" e permette di mostrare
 
 ## Scelte tecnologiche
 
-Scelta principale: **Unity + AR Foundation + ARKit XR Plugin**.
+Scelta principale: **Unity + AR Foundation + ARKit XR Plugin + ARCore XR Plugin**.
 
 Motivazione:
 
 - Le slide del corso introducono AR Foundation come SDK principale per ARCore e ARKit.
-- AR Foundation permette di usare ARKit su iPhone mantenendo una struttura Unity abbastanza documentabile nel report.
-- ARKit e' adatto a world tracking, plane detection, image tracking, raycast e light estimation su smartphone iOS.
-- Il progetto resta coerente con la scelta dello smartphone come main device.
+- AR Foundation permette di sviluppare una sola codebase Unity e usare ARKit su iOS e ARCore su Android.
+- ARKit e ARCore supportano le feature principali richieste: world tracking, plane detection, image tracking, raycast e, dove disponibile, light estimation.
+- Il progetto resta coerente con la scelta dello smartphone come main device e documenta le differenze tra le due piattaforme.
 
 Target:
 
-- Dispositivo: iPhone compatibile ARKit.
+- Dispositivi: almeno un iPhone compatibile ARKit e almeno uno smartphone Android compatibile ARCore.
+- Piattaforme: iOS e Android.
 - Ambiente di test: stanza reale o ufficio reale.
 - Nessun digital twin e nessun test principale in simulazione.
 - XR Simulation opzionale solo per debug iniziale, non come validazione finale.
@@ -130,16 +131,22 @@ Asset:
 - Installare pacchetti:
   - AR Foundation;
   - ARKit XR Plugin;
+  - ARCore XR Plugin;
   - XR Plugin Management;
   - eventuale Input System se usato dal template.
-- Abilitare iOS come piattaforma di build.
-- Configurare Player Settings:
+- Abilitare iOS e Android come piattaforme di build.
+- Configurare Player Settings per iOS:
   - Camera Usage Description;
   - target iOS compatibile con ARKit;
   - orientation portrait o landscape, da decidere subito e mantenere coerente.
-- Creare scena AR minima e verificare build su iPhone.
+- Configurare Player Settings per Android:
+  - Minimum API Level compatibile con ARCore;
+  - ARCore support richiesto o opzionale in base alla strategia di distribuzione;
+  - permesso camera;
+  - orientation coerente con iOS.
+- Creare scena AR minima e verificare build su iPhone e Android.
 
-Deliverable: app vuota ARKit che apre la camera e avvia una sessione AR.
+Deliverable: app vuota AR Foundation che apre la camera e avvia una sessione AR su iOS e Android.
 
 ### Fase 2 - Plane detection e placement
 
@@ -198,7 +205,8 @@ Preparare una matrice di test:
 Annotare nel report:
 
 - dispositivo usato;
-- versione iOS;
+- versione iOS e modello iPhone;
+- versione Android e modello smartphone;
 - versione Unity;
 - condizioni ambientali;
 - target usati;
@@ -242,7 +250,7 @@ Struttura consigliata:
 
 1. Introduzione e obiettivo del progetto.
 2. Requisiti del corso soddisfatti.
-3. Scelta SDK/librerie: Unity, AR Foundation, ARKit XR Plugin.
+3. Scelta SDK/librerie: Unity, AR Foundation, ARKit XR Plugin, ARCore XR Plugin.
 4. Descrizione ambiente reale di test.
 5. Design dell'esperienza AR.
 6. Implementazione:
@@ -265,7 +273,7 @@ Struttura consigliata:
 
 | Giorno | Obiettivo |
 | --- | --- |
-| 1 | Setup Unity, ARKit, scena AR minima, build su iPhone |
+| 1 | Setup Unity, AR Foundation, scena AR minima, build su iPhone e Android |
 | 2 | Plane detection e tap-to-place |
 | 3 | Image tracking con primi target |
 | 4 | Contenuti AR, prefab e UI |
@@ -277,7 +285,9 @@ Struttura consigliata:
 ## Checklist finale requisiti
 
 - [ ] App AR per smartphone.
-- [ ] Uso ARKit tramite AR Foundation e ARKit XR Plugin.
+- [ ] Compatibilita' iOS e Android.
+- [ ] Uso ARKit su iOS tramite AR Foundation e ARKit XR Plugin.
+- [ ] Uso ARCore su Android tramite AR Foundation e ARCore XR Plugin.
 - [ ] Test nel mondo reale.
 - [ ] Nessun digital twin come validazione principale.
 - [ ] Ambiente aumentato tipo room/office.
@@ -294,10 +304,10 @@ Struttura consigliata:
 
 | Rischio | Mitigazione |
 | --- | --- |
-| Mancanza di dispositivo iOS compatibile | Verificare subito modello iPhone e supporto ARKit |
-| Build iOS complessa | Fare la prima build gia' in Fase 1 |
+| Mancanza di dispositivi compatibili | Verificare subito modello iPhone, modello Android, supporto ARKit e supporto ARCore |
+| Differenze tra ARKit e ARCore | Usare solo feature comuni come plane detection, raycast e image tracking; documentare eventuali differenze |
+| Build iOS/Android complessa | Fare una prima build per entrambe le piattaforme gia' in Fase 1 |
 | Image target poco riconoscibili | Usare immagini ricche di dettagli, buon contrasto e dimensione fisica corretta |
 | Tracking instabile in luce scarsa | Testare con illuminazione controllata e documentare limiti |
 | Scope troppo ampio | Rendere obbligatorie solo plane detection, placement e image tracking; lasciare occlusion/persistenza come extra |
 | File `notes.pdf` mancante | Aggiornare il piano appena il file viene aggiunto al workspace |
-
